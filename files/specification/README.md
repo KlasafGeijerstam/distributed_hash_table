@@ -1,4 +1,4 @@
-﻿# Assignment 2: P2P using hash table
+﻿# Distributed hash table
 
 Hash tables are a very efficient and common data structure for storing data.
 Distributing a hash table is a common way to balance the load and allow for data
