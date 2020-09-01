@@ -168,7 +168,7 @@ There are many implicit and explicit rules of the distributed hash table, some
 of the most important ones are listed below.
 
 * Only one insertion of a node is performed at a time.
-* SSN is represented as 13-bytes, YYYYMMDDXXXXX, **no null termination**.
+* SSN is represented as 12-bytes, YYYYMMDDXXXX, **no null termination**.
 * Name and email fields are at most 255 characters, **no null termination**.
 * Invalid PDUs can be dropped without response.
 * A node that is about to join the network is called a prospect.
