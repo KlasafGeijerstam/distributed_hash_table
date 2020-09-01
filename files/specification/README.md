@@ -159,7 +159,7 @@ node in the network, can be calculated in the following way:
 
 The data stored in the distributed hash table, also known as table entries, are
 defined as follows:
-* SSN (to be hashed with SHA-1)
+* SSN (to be hashed with `djb2`)
 * Name
 * Email
 
@@ -205,7 +205,7 @@ running the binary you can contact the tutors to get a copy of the source code.*
 ### 5DV212 
 * Tracker
 * Some PDU classes
-* Hasher class wrapping the djb2 hashing algorithm.
+* Hasher class wrapping the `djb2` hashing algorithm.
 
 ### 5DV213
 
