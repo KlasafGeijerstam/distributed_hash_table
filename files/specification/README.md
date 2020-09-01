@@ -172,7 +172,6 @@ of the most important ones are listed below.
 * Name and email fields are at most 255 characters, **no null termination**.
 * Invalid PDUs can be dropped without response.
 * A node that is about to join the network is called a prospect.
-* All structs are aligned by definition, for easier representation as C structs.
 * A PDU field is described by either tag or value, followed by the storage size in bytes.
  E.g "NAME (10)" is a field with the tag NAME and storage size of ten bytes.
 * All port fields are transmitted in `network byte order`, also known as `big-endian`.
