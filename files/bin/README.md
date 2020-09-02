@@ -1,7 +1,7 @@
 # Binaries
 The directory contains pre-compiled binaries for the tracker, node and test-client.
 The binaries are built for linux, if you can not run the files you can compile them
-from source, instructions and source are located in the [../src](src) directory.
+from source, instructions and source are located in the [src](files/src) directory.
 
 
 All binaries have built in help describing the arguments for the program, which can be
