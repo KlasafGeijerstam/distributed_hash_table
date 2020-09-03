@@ -940,15 +940,15 @@ mod node {
         }
 
         fn connect_to_successor(&mut self, addr: SocketAddr) -> TcpStream {
-            let socket = TcpStream::connect(addr).expect("Failed to connect to successor");
+            let socket = std::net::TcpStream::connect(addr).expect("Failed to connect to successor");
             self.successor_listen = Some(addr);
 
             println!(
                 "    Connected to new successor {:?}",
                 socket.peer_addr().unwrap()
             );
-
-            socket
+            socket.set_nonblocking(true).expect("Failed to set socket non-blocking");
+            TcpStream::from_std(socket)
         }
     }
 }

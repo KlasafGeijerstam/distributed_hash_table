@@ -15,7 +15,9 @@ Optional parameters are shown by running the tracker with the `--help` parameter
 ## Node
 
 The `node` binary is an implementation of the described node. Use the `--help` parameter
-to see what the parameters are.
+to see what the parameters are. The node can be shutdown by sending `SIGINT`, either via
+terminal or by pressing `CTRL+C` in the terminal. If the node crashes due to a malformed 
+PDU or similar, the node can be shut down by sending `SIGQUIT`, via `CTRL+\`.
 
 
 ## Client
