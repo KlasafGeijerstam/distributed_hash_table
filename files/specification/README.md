@@ -113,7 +113,7 @@ of the node. The node should first close the connection to its successor or pred
 using the defined close sequence, and
 then transfer a message telling to expand the current hash
 range, to store the new values. All stored entries in the leaving node should then be transferred to the receiving node using value insertion messages, followed by a message containing
-the address and port of the successor of the leaving node.
+the address and port of the successor or predecessor of the leaving node.
 The node that receives the new values should use this data to connect to its
 new successor or predecessor and restore the ring
 structure in the network. 
