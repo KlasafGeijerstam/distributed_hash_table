@@ -137,7 +137,7 @@ of the node as a state machine follows.
 The figure below pictures a node that is fully connected into the network,
 meaning that the node has joined the network and has established connection to
 the predecessor and successor. A fully connected node has to maintain a total
-of five sockets. 
+of four sockets. 
 
 Sockets:
 
