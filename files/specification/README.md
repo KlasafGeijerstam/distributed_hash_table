@@ -99,29 +99,30 @@ message.
 When a node connects as its new successor, a part of the hash range should be transferred
 to the new successor. The transfer is accomplished by taking the upper half of the
 predecessor's hash range and sending it to the successor. The transmission of the
-entries is performed using insertion messages.
+entries is performed using insertion messages. The node with the greatest hash-range
+should be the one splitting its range.
 
 
 ### Leaving procedure
 Nodes should be able to leave the network, which means that the values
-contained in the node must be transmitted to another agent of the network. There are two
-possible scenarios that nodes can experience. Those are that either successor or predecessor can leave
-the network at any time. Depending on which of these leaves, it has to act differently to
-restore the ring structure. The
-hash range and data of a leaving node are transmitted to the predecessor or successor
-of the node. The node should first close the connection to its successor or predecessor
-using the defined close sequence, and
-then transfer a message telling to expand the current hash
-range, to store the new values. All stored entries in the leaving node should then be transferred to the receiving node using value insertion messages, followed by a message containing
-the address and port of the successor or predecessor of the leaving node.
-The node that receives the new values should use this data to connect to its
-new successor or predecessor and restore the ring
-structure in the network. 
+contained in the node must be transmitted to another agent of the network. The
+node can either transfer its hash-range to its successor or predecessor.
+
+The hash range and data of a leaving node are transmitted to the predecessor or
+successor of the node. The node should first update the hash-range of the node
+that is to take over the range,  all stored entries in the leaving node should
+then be transferred to the receiving node using value insertion messages. The
+node should then close the connection to its successor, using the defined close
+pdu. After the connection to the successor has been closed, the node should
+send a pdu to its predecessor containing the connection info of its 
+successor (the successor of the leaving node).
+
 
 ### Disconnection of predecessors and successors
 Before a socket connection can be closed between two nodes, a
 special message telling the remote to close the connection must be transmitted
 over the connection before it can be closed.
+
 
 ## Node states
 A node can be represented as a state machine, where PDUs transition the node
