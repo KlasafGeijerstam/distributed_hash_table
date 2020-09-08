@@ -5,7 +5,7 @@ from source, instructions and source are located in the [src](files/src) directo
 
 
 All binaries have built in help describing the arguments for the program, which can be
-shown by running `./{tracker/node/client} --help`
+shown by running `./{tracker/node/client} --help` (`./tracker.exe` on Windows).
 
 ## Tracker
 
