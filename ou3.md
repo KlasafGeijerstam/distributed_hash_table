@@ -11,9 +11,9 @@ Se specifikation och filer under [files](files).
 ## DOD
 Lämna alla filer som behövs tillsammans med en fungerande makefil.
 Använd poll för läsningen och skrivningen av sockets. Kolla man sidan på Linux och den här länken ( https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_71/rzab6/poll.htm )
-Lämnas in på labres: https://webapps.cs.umu.se/labresults/v2/feedback.php?courseid=455
+Lämnas in på labres: https://webapps.cs.umu.se/labresults/v2/handin.php?courseid=455
 
 
 ## DOI
 Lämna in en Node.java fil med main i.
-Lämnas in på labres: https://webapps.cs.umu.se/labresults/v2/feedback.php?courseid=456
+Lämnas in på labres: https://webapps.cs.umu.se/labresults/v2/handin.php?courseid=456
