@@ -15,5 +15,5 @@ Lämnas in på labres: https://webapps.cs.umu.se/labresults/v2/handin.php?course
 
 
 ## DOI
-Lämna in en Node.java fil med main i.
+Lämna in alla filer som programmet använder för att vi ska kunna kompilera och köra erat program. Main funktionen ska ligga i Node.java
 Lämnas in på labres: https://webapps.cs.umu.se/labresults/v2/handin.php?courseid=456
