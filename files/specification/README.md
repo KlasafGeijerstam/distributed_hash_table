@@ -34,6 +34,22 @@ implementing the same interface, is performed using _Protocol data units_
 fulldescription of all the existing PDUs can be found in the 
 [PDU-specification](pdu_specification.md).
 
+## Reading of PDU:s, and performance competition (5DV213 only)
+
+PDUs must be read using buffers, as the implementation must support fragmented
+PDUs over TCP. One node sending a PDU one byte every 10 seconds should not prevent
+the receiving node from handling PDUs from another node. Every time `poll` signals
+that a socket is readable, you must call `read` untill the operation would block.
+Reading a PDU one byte at a time is not acceptable. The buffer used for `read` calls
+should be at least `1024` bytes long. 
+
+### Performance competition
+
+At the end, groups that are interested can submit their node implementation for
+a performance test, where the implementation will be stress-tested with different
+operations. A course-wide top 10 list of the fastest nodes will be maintained
+in this repository.
+
 ## Node functionality
 
 The nodes should support the insertion and removal of successors and predecessors,
