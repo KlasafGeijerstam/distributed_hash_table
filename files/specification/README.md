@@ -255,8 +255,8 @@ created by one or more node implementations, possibly including that of the exam
 is expected to be able to fulfill these operations with valid results.
 
 The second part of the examination is the implementation examination. You will be
-given time to show how you implemented the different parts of the node, how PDUs
-are handled and similar parts. Prepare a list of features of highlights (or possibly
+given time to show how you implemented the node, how PDUs
+are handled and similar. Prepare a list of features of highlights (or possibly
 lowlights) of your implementation, explain what parts were difficult, what problems
 you encountered and what parts of the implementation you are most satisfied with.
 
@@ -265,26 +265,32 @@ your code into commented functions. The C implementation does not have to be com
 free from memory/file descriptor leaks, but all present leaks must be static.
 
 
-Your implementations should be able to start using the following terminal
+### 5DV212
+
+Your implementation should be able to start using the following terminal
 commands:
 
-*5DV198 DOI*
 ```bash
 java Node <tracker address> <tracker port>
 ```
 
-*5DV197 DOD*
+**Required functionality:**
+* The network should work with 1 or 2 nodes.
+* Nodes do not have to support leaving.
+* All VAL-PDUs.
+
+### 5DV213
+
+Your implementation should be able to start using the following terminal
+commands:
+
 ```bash
 ./node <tracker address> <tracker port>
 ```
-**Your implementation must utilize the `poll` API**
-
-You are also to write a short report in which you analyze the performance of
-the interface, your implementation, and what, if any, you think should be
-changed with the interface to increase the performance of it or to simplify the
-communication between nodes. The report should also contain a brief reflection
-on difficulties and uncertainties that you encountered during the assignment. 
-The report is to be handed in on labres.
+**Required functionality:**
+* Full implementation of the node.
+* Implementation using the `poll` API.
+* Buffering according to the specification.
 
 
 ### FSR/Syfte
