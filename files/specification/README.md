@@ -275,7 +275,7 @@ java Node <tracker address> <tracker port>
 ```
 
 **Required functionality:**
-* The network should work with 1 or 2 nodes.
+* The network should work with 1 and 2 nodes.
 * Nodes do not have to support the leaving procedure.
 * `VAL_REMOVE` does not have to be supported.
 
