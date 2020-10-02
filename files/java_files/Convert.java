@@ -10,7 +10,7 @@ class Convert {
         int[] mask = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
         for(int i = 0; i < 4; i++) {
             int b = (a & mask[i]) >> (i * 8);
-            res = res + (i != 0 ? "." : "") + b;
+            res = b + (i != 0 ? "." : "") + res;
         }
 
         return res;
@@ -26,7 +26,7 @@ class Convert {
         var res = 0;
         var addr = a.split("\\.");
         for(int i = 0; i < 4; i++) {
-            res |= Integer.parseInt(addr[i]) << (i * 8);
+            res |= Integer.parseInt(addr[i]) << (24 - i * 8);
         }
 
         return res;
