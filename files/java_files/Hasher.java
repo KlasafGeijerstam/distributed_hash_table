@@ -13,6 +13,6 @@ public class Hasher {
             result = ((result << 5) + result) + (int)s.charAt(i);
         }
 
-        return (short) (result % 256);
+        return (short) (Integer.toUnsignedLong(result) % 256);
     }
 }
