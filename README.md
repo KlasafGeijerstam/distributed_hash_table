@@ -19,3 +19,7 @@ If you do not get time to present your implementation before Deadline 1, you
 When you do get time to present your implementation, you will present using the
 files uploaded to labres. If you want to present a newer version of your implementation
 you may do so, but the presentation will count as your second attempt.
+
+
+Presentations are performed during normal tutoring. Sign up to the tutoring list
+as usual and specify that you want to present in the message field.
