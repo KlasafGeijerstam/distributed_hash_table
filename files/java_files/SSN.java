@@ -15,7 +15,7 @@ class SSN {
     }
     
     @Override
-    public bool equals(Object o) {
+    public boolean equals(Object o) {
         return this.ssn.equals(o);
     }
 }
