@@ -11,6 +11,10 @@ class SSN {
 
     @Override
     public int hashCode() {
+        return this.ssn.hashCode();
+    }
+    
+    public int getHash() {
         return Hasher.hashSSN(ssn);
     }
     
