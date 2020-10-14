@@ -13,4 +13,9 @@ class SSN {
     public int hashCode() {
         return Hasher.hashSSN(ssn);
     }
+    
+    @Override
+    public bool equals(Object o) {
+        return this.ssn.equals(o);
+    }
 }
