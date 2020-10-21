@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "pdu_io_derive",
+    "pdu_io",
+    "dist_hash_table",
+]
