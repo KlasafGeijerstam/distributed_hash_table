@@ -2,7 +2,7 @@ use std::net::Ipv4Addr;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
-#[structopt(name = "Node")]
+#[structopt(name = "Node", version = "1.1")]
 struct Opt {
     /// Tracker address
     tracker_address: Ipv4Addr,
@@ -305,7 +305,10 @@ mod node {
                     }
                     SUCCESSOR => {
                         if let Some(suc) = &mut self.successor {
-                            self.successor_wrapper.try_read(suc);
+                            if self.successor_wrapper.try_read(suc) {
+                                println!("    Successor disconnected, removing..");
+                                self.successor = None;
+                            }
                             while let Some((pdu, sender)) = self.successor_wrapper.next_pdu() {
                                 self.handle_pdu(pdu, Source::Successor(sender));
                             }
@@ -313,7 +316,9 @@ mod node {
                     }
                     PREDECESSOR => {
                         if let Some(pred) = &mut self.predecessor {
-                            self.predecessor_wrapper.try_read(pred);
+                            if self.predecessor_wrapper.try_read(pred) {
+                                println!("    Predecessor disconnected, removing..");
+                            }
 
                             while let Some((pdu, sender)) = self.predecessor_wrapper.next_pdu() {
                                 self.handle_pdu(pdu, Source::Predecessor(sender));
@@ -439,11 +444,11 @@ mod node {
 
             let to_successor = min == 0;
             if to_successor {
-                println!("    Sending NET_LEAVING to successor");
+                println!("    Sending NET_NEW_RANGE to successor");
                 self.successor_wrapper.send(successor, new_range.into());
                 successor.flush().unwrap();
             } else {
-                println!("    Sending NET_LEAVING to predecessor");
+                println!("    Sending NET_NEW_RANGE to predecessor");
                 self.predecessor_wrapper.send(predecessor, new_range.into());
                 predecessor.flush().unwrap();
             }
@@ -650,8 +655,8 @@ mod node {
 
             let close = NetCloseConnectionPdu::new();
             self.successor_wrapper.send(successor, close.into());
-            successor.shutdown(Shutdown::Both).unwrap();
             successor.flush().unwrap();
+            successor.shutdown(Shutdown::Both).unwrap();
 
             let to_connect = match self.successor_listen {
                 Some(SocketAddr::V4(addr)) => addr,
@@ -667,8 +672,8 @@ mod node {
 
             println!("    Sending NET_LEAVING to predecessor");
             self.predecessor_wrapper.send(predecessor, leaving.into());
-            predecessor.shutdown(Shutdown::Both).unwrap();
             predecessor.flush().unwrap();
+            predecessor.shutdown(Shutdown::Both).unwrap();
 
             self.running = false;
         }

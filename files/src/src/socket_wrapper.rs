@@ -51,12 +51,14 @@ impl TcpWrapper {
         self.incoming_queue.pop_front()
     }
 
-    pub fn try_read(&mut self, socket: &mut TcpStream) {
+    pub fn try_read(&mut self, socket: &mut TcpStream) -> bool {
+        let mut closed = false;
         loop {
             match socket.read(&mut self.buffer[self.buffer_fill..]) {
                 Ok(amt) => {
                     if amt == 0 {
                         println!("    Remote closed the connection {:?}", socket.peer_addr());
+                        closed = true;
                         break;
                     }
                     self.buffer_fill += amt;
@@ -77,6 +79,8 @@ impl TcpWrapper {
             self.buffer.copy_within(used..self.buffer_fill, 0);
             self.buffer_fill -= used;
         }
+
+        closed
     }
 }
 
