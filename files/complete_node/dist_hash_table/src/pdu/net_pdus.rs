@@ -261,3 +261,105 @@ impl From<NetLeavingPdu> for PDU {
         Self::NetLeaving(pdu)
     }
 }
+#[cfg(test)]
+mod net_tests {
+    use super::*;
+    use pdu_io::ParsePdu;
+
+    #[test]
+    fn test_net_alive() {
+        let a = NetAlivePdu::new();
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_ALIVE_SIZE);
+        let (a, b) = NetAlivePdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_ALIVE_SIZE);
+    }
+
+    #[test]
+    fn test_net_get_node() {
+        let a = NetGetNodePdu::new();
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_GET_NODE_SIZE);
+        let (a, b) = NetGetNodePdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_GET_NODE_SIZE);
+    }
+
+    #[test]
+    fn test_net_get_node_response() {
+        let a = NetGetNodeResponsePdu::new(123456, 1234);
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_GET_NODE_RESPONSE_SIZE);
+        let (a, b) = NetGetNodeResponsePdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_GET_NODE_RESPONSE_SIZE);
+        assert_eq!(123456, a.address);
+        assert_eq!(1234, a.port);
+    }
+
+    #[test]
+    fn test_net_join() {
+        let a = NetJoinPdu::new(1010, 1011, 10, 1122, 1123);
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_JOIN_SIZE);
+        let (a, b) = NetJoinPdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_JOIN_SIZE);
+        assert_eq!(1010, a.src_address);
+        assert_eq!(1011, a.src_port);
+        assert_eq!(10, a.max_span);
+        assert_eq!(1122, a.max_address);
+        assert_eq!(1123, a.max_port);
+    }
+
+    #[test]
+    fn test_net_join_response() {
+        let a = NetJoinResponsePdu::new(123456, 1234, 10, 20);
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_JOIN_RESPONSE_SIZE);
+        let (a, b) = NetJoinResponsePdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_JOIN_RESPONSE_SIZE);
+        assert_eq!(123456, a.next_address);
+        assert_eq!(1234, a.next_port);
+        assert_eq!(10, a.range_start);
+        assert_eq!(20, a.range_end);
+    }
+
+    #[test]
+    fn test_net_close_connection() {
+        let a = NetCloseConnectionPdu::new();
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_CLOSE_CONNECTION_SIZE);
+        let (a, b) = NetCloseConnectionPdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_CLOSE_CONNECTION_SIZE);
+    }
+
+    #[test]
+    fn test_net_new_range() {
+        let a = NetNewRangePdu::new(1, 255);
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_NEW_RANGE_SIZE);
+        let (a, b) = NetNewRangePdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_NEW_RANGE_SIZE);
+        assert_eq!(a.range_start, 1);
+        assert_eq!(a.range_end, 255);
+    }
+
+    #[test]
+    fn test_net_new_range_response() {
+        let a = NetNewRangeResponsePdu::new();
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_NEW_RANGE_RESPONSE_SIZE);
+        let (a, b) = NetNewRangeResponsePdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_NEW_RANGE_RESPONSE_SIZE);
+        assert_eq!(a.pdu_type, NET_NEW_RANGE_RESPONSE_ID);
+    }
+
+    #[test]
+    fn test_net_leaving() {
+        let a = NetLeavingPdu::new(12345, 255);
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), NET_LEAVING_SIZE);
+        let (a, b) = NetLeavingPdu::try_parse(&b).unwrap();
+        assert_eq!(b, NET_LEAVING_SIZE);
+        assert_eq!(a.new_address, 12345);
+        assert_eq!(a.new_port, 255);
+    }
+}

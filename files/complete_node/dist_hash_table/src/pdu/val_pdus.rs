@@ -253,3 +253,69 @@ impl From<ValRemovePdu> for PDU {
         Self::ValRemove(pdu)
     }
 }
+
+#[cfg(test)]
+mod val_tests {
+    use super::*;
+    use pdu_io::ParsePdu;
+
+    #[test]
+    fn test_val_insert() {
+        let ssn = "111111111111".to_owned();
+        let name = "Test".to_owned();
+        let email = "Emai".to_owned();
+        let a = ValInsertPdu::new(ssn.clone(), name.clone(), email.clone());
+        let b: Vec<u8> = a.into();
+        let len = 1 + SSN_LENGTH + 1 + name.len() + 1 + email.len();
+        assert_eq!(b.len(), len);
+        let (a, b) = ValInsertPdu::try_parse(&b).unwrap();
+        assert_eq!(b, len);
+        assert_eq!(a.ssn, ssn);
+        assert_eq!(a.name_length, name.len() as u8);
+        assert_eq!(a.name, name);
+        assert_eq!(a.email_length, email.len() as u8);
+        assert_eq!(a.email, email);
+    }
+
+    #[test]
+    fn test_val_remove() {
+        let ssn = "111111111111".to_owned();
+        let a = ValRemovePdu::new(ssn.clone());
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), VAL_REMOVE_SIZE);
+        let (a, b) = ValRemovePdu::try_parse(&b).unwrap();
+        assert_eq!(b, VAL_REMOVE_SIZE);
+        assert_eq!(a.ssn, ssn);
+    }
+
+    #[test]
+    fn test_val_lookup() {
+        let ssn = "111111111111".to_owned();
+        let a = ValLookupPdu::new(ssn.clone(), 12345, 1234);
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), VAL_LOOKUP_SIZE);
+        let (a, b) = ValLookupPdu::try_parse(&b).unwrap();
+        assert_eq!(b, VAL_LOOKUP_SIZE);
+        assert_eq!(a.ssn, ssn);
+        assert_eq!(a.sender_address, 12345);
+        assert_eq!(a.sender_port, 1234);
+    }
+
+    #[test]
+    fn test_val_lookup_response() {
+        let ssn = "111111111111".to_owned();
+        let name = "Test".to_owned();
+        let email = "Emai".to_owned();
+        let a = ValLookupResponsePdu::new(ssn.clone(), name.clone(), email.clone());
+        let b: Vec<u8> = a.into();
+        let len = 1 + SSN_LENGTH + 1 + name.len() + 1 + email.len();
+        assert_eq!(b.len(), len);
+        let (a, b) = ValLookupResponsePdu::try_parse(&b).unwrap();
+        assert_eq!(b, len);
+        assert_eq!(a.ssn, ssn);
+        assert_eq!(a.name_length, name.len() as u8);
+        assert_eq!(a.name, name);
+        assert_eq!(a.email_length, email.len() as u8);
+        assert_eq!(a.email, email);
+    }
+}

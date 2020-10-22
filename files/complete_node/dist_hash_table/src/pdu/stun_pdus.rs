@@ -47,3 +47,29 @@ impl From<StunLookupPdu> for PDU {
         Self::StunLookup(pdu)
     }
 }
+
+
+#[cfg(test)]
+mod stun_tests {
+    use super::*;
+    use pdu_io::ParsePdu;
+
+    #[test]
+    fn test_stun_lookup() {
+        let a = StunLookupPdu::new();
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), STUN_LOOKUP_SIZE);
+        let (a, b) = StunLookupPdu::try_parse(&b).unwrap();
+        assert_eq!(b, STUN_LOOKUP_SIZE);
+    }
+
+    #[test]
+    fn test_stun_response() {
+        let a = StunResponsePdu::new(12345);
+        let b: Vec<u8> = a.into();
+        assert_eq!(b.len(), STUN_RESPONSE_SIZE);
+        let (a, b) = StunResponsePdu::try_parse(&b).unwrap();
+        assert_eq!(b, STUN_RESPONSE_SIZE);
+        assert_eq!(a.address, 12345);
+    }
+}

@@ -19,13 +19,13 @@ which other nodes can connect.
 
 
 A node has multiple sockets for communication with the tracker and other nodes,
-more specifically it has 5 sockets. One for sending alive PDUs
-periodically over UDP, one for incoming PDUs over UDP, two for maintaining a
-TCP connection to its predecessor and successor respectively and one final TCP
-socket for accepting successors. The successor and predecessor sockets are
-recreated as new nodes join or leave the network. The maximum size of the
-network is 256 nodes, with a hash range of 0-255. You are encouraged,
-and expected, to test your implementation with other student implementations.
+more specifically it has 4 sockets. One for incoming and outgoing incoming PDUs
+over UDP, two for maintaining a TCP connection to its predecessor and successor
+respectively and one final TCP socket for accepting successors. The successor
+and predecessor sockets are recreated as new nodes join or leave the network.
+The maximum size of the network is 256 nodes, with a total hash range of 0-255. You
+are encouraged, and expected, to test your implementation with other student
+implementations as well as the given implementation.
 
 # Communication between nodes (PDU)
 The communication between nodes, trackers, and possibly other agents
@@ -43,12 +43,6 @@ that a socket is readable, you must call `read` untill the operation would block
 Reading a PDU one byte at a time is not acceptable. The buffer used for `read` calls
 should be at least `1024` bytes long. 
 
-### Performance competition
-
-At the end, groups that are interested can submit their node implementation for
-a performance test, where the implementation will be stress-tested with different
-operations. A course-wide top 10 list of the fastest nodes will be maintained
-in this repository.
 
 ## Node functionality
 
@@ -70,13 +64,13 @@ the tracker contains the necessary information that is needed to join the
 network.
 
 An empty response means that there is currently no other node in the network.
-A non-empty response indicates that the node should to
-send a join message to the node that was included in the response from the tracker,
-and subsequently, wait for a connection from its new predecessor. 
-When connected, the predecessor should transmit a message
-containing the new successor of the node, along with any entries that are to be
-transferred to the new node. When the new node is connected to its successor,
-the node is considered alive and should be sending alive messages to the tracker.
+A non-empty response indicates that the node should send a join message to the
+node that was included in the response from the tracker, and subsequently, wait
+for a connection from its new predecessor.  When connected, the predecessor
+should transmit a message containing the new successor of the node, along
+with any entries that are to be transferred to the new node. When the new
+node is connected to its successor, the node is considered alive and should
+be sending alive messages to the tracker.
 
 
 ### Handle hash table request
@@ -84,6 +78,7 @@ A node should listen for incoming value PDUs over UDP, corresponding to
 the insertion, removal, and lookup operations. If the key is outside of the
 receivers hash range, the message should be forwarded to the receivers'
 successor.
+
 Otherwise, the desired operation should be performed on the nodes hash table,
 and an appropriate response is sent back to the sender if expected by the
 operation.
@@ -228,6 +223,8 @@ running the binary you can contact the tutors to get a copy of the source code.*
 
 * Tracker
 * Some PDU structs
+    * **NOTE**: Due to struct-padding, most PDU-structs can't be sent directly.
+    * The only accepted approach is to create support functions to parse PDUs.
 * Implementation of `djb2`
 
 **Note:** the given hashing classes for both courses are compatible, i.e the
@@ -239,7 +236,7 @@ implementation in both C and Java should produce the same hash sum for a given i
 
 ### Testing your node
 
-Executable binaries are provided in the [bin](bin) folder.
+Executable binaries are provided in the [complete_node/bin](complete_node/bin) folder.
 
 
 
@@ -271,7 +268,7 @@ Your implementation should be able to start using the following terminal
 commands:
 
 ```bash
-java Node <tracker address> <tracker port>
+java Node <tracker address>:<tracker port>
 ```
 
 **Required functionality:**
@@ -285,7 +282,7 @@ Your implementation should be able to start using the following terminal
 commands:
 
 ```bash
-./node <tracker address> <tracker port>
+./node <tracker address>:<tracker port>
 ```
 **Required functionality:**
 * Full implementation of the node.
